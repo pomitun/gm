@@ -1,0 +1,40 @@
+-- CREATE OR REPLACE PROCEDURE PRODUCT_INS(
+--   NAME VARCHAR2,
+--   KNIT_TECHNOLOGY VARCHAR2,
+--   CATEGORY_CATEGORY_ID NUMBER,
+--   AVAILABILITY NUMBER,
+--   IDENT OUT INTEGER
+-- ) IS
+-- PRAGMA AUTONOMOUS_TRANSACTION;
+-- BEGIN
+-- 	INSERT INTO PRODUCT_BASE(NAME, KNIT_TECHNOLOGY, CATEGORY_CATEGORY_ID, AVAILABILITY)
+-- 	VALUES (NAME, KNIT_TECHNOLOGY, CATEGORY_CATEGORY_ID, AVAILABILITY)
+--   RETURNING ID INTO IDENT;
+--   COMMIT;
+-- EXCEPTION
+-- 	WHEN OTHERS THEN IDENT := -1;
+-- 	ROLLBACK;
+-- END;
+--
+-- -- create or replace PROCEDURE users_ins (
+-- --   t_1 КЛИЕНТЫ.ид_клиент%TYPE,
+-- --   t_2 КЛИЕНТЫ.имя%TYPE,
+-- --   t_3 КЛИЕНТЫ.ид_тип_орг%TYPE,
+-- --   t_4 КЛИЕНТЫ.адрес%TYPE,
+-- --   t_5 КЛИЕНТЫ.телефон%TYPE,
+-- --   t_6 КЛИЕНТЫ.емайл%TYPE
+-- --   ) AS
+-- -- BEGIN
+-- --   INSERT INTO КЛИЕНТЫ (ид_клиент,имя, ид_тип_орг, адрес,телефон,емайл) VALUES (t_1,t_2,t_3,t_4,t_5,t_6);
+-- -- END users_ins;
+-- -- create or replace PROCEDURE users_del (
+-- --   t_1 КЛИЕНТЫ.ид_клиент%TYPE,
+-- --   t_2 КЛИЕНТЫ.имя%TYPE,
+-- --   t_3 КЛИЕНТЫ.ид_тип_орг%TYPE,
+-- --   t_4 КЛИЕНТЫ.адрес%TYPE,
+-- --   t_5 КЛИЕНТЫ.телефон%TYPE,
+-- --   t_6 КЛИЕНТЫ.емайл%TYPE
+-- --   ) AS
+-- -- BEGIN
+-- --   DELETE FROM КЛИЕНТЫ WHERE (ид_клиент=t_1 AND имя=t_2 AND ид_тип_орг=t_3 AND адрес=t_4 AND телефон=t_5 AND емайл=t_6);
+-- -- END users_del;
