@@ -15,4 +15,11 @@
     <br>
     Master:<select data-bind="options:masters, optionsText : 'name',optionsValue:'id', value:selectedMaster, optionsCaption:'Select...'"></select>
     <input type="button" data-bind="click: sendOrder" value="Submit"/>
+    <br>
+
+    Customer: <br>
+    Name:<input required="true" data-bind="value: customer.firstName"/> <br>
+    Surname:<input data-bind="value: customer.lastName"/> <br>
+    Phone:<input data-bind="value: customer.phone"/> <br>
+    Address:<input data-bind="value: customer.address"/> <br>
 </div>

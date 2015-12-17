@@ -4,11 +4,9 @@ $(document).ready(function () {
         var categories = [];
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/product/getAllCategories.action",
+            url: contextPath + "/product/getAllCategories.action",
             dataType: "json",
             success: function (data) {
-                console.log("categories");
-                console.log(data);
                 for(var i=0; i<data.length; i++)
                     categories[i] = new category(data[i].id, data[i].name);
 
@@ -22,12 +20,9 @@ $(document).ready(function () {
         var products = [];
         $.ajax({
             type: "GET",
-            url: "http://localhost:8080/product/getAllProducts.action",
+            url: contextPath + "/product/getAllProducts.action",
             dataType: "json",
             success: function (data) {
-                console.log("products");
-                console.log(data);
-
                 $.each(data, function(index, item) {
                     var sizes = [];
                     $.each(item.productSizes, function( i, iSize ) {
@@ -46,42 +41,6 @@ $(document).ready(function () {
         });
         return products;
     }
-
-    //function getAllColors(){
-    //    var colors = [];
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "http://localhost:8080/product/getAllProductColors.action",
-    //        dataType: "json",
-    //        success: function (data) {
-    //            console.log("colors");
-    //            console.log(data);
-    //            for(var i=0; i<data.length; i++)
-    //                colors[i] = new color(data[i].id, data[i].product.id, data[i].color);
-    //        },
-    //        async:false
-    //    });
-    //    return colors;
-    //}
-    //
-    //function getAllSizes(){
-    //    var sizes = [];
-    //    $.ajax({
-    //        type: "GET",
-    //        url: "http://localhost:8080/product/getAllProductSizes.action",
-    //        dataType: "json",
-    //        success: function (data) {
-    //            console.log("sizes");
-    //            console.log(data);
-    //            for(var i=0; i<data.length; i++)
-    //                sizes[i] = new size(data[i].id, data[i].product.id, data[i].customSize, data[i].price);
-    //
-    //
-    //        },
-    //        async:false
-    //    });
-    //    return sizes;
-    //}
 
     var category = function (id, name) {
         var self = this;
@@ -113,19 +72,26 @@ $(document).ready(function () {
 
     var master = function (id, firstName, lastName) {
         var self = this;
-        self.id = ko.observable(id);
-        self.firstName = ko.observable(firstName);
+        self.id = id;
+        self.firstName = firstName;
+        self.lastName = lastName;
+        self.name = firstName + " " + lastName;
+    };
+
+    var customerModel= function (id, firstName, lastName, phone, addres) {
+        var self = this;
+        self.id = id;
+        self.firstName =  ko.observable(firstName);
         self.lastName = ko.observable(lastName);
+        self.phone = ko.observable(phone);
+        self.address = ko.observable(addres);
     };
 
     var OrderProductModel =  function() {
         var self = this;
         self.categories = ko.observableArray(getAllCategories());
         self.products = ko.observableArray(getAllProducts() );
-        //self.sizes = ko.observableArray(getAllSizes());
-        //self.colors = ko.observableArray(getAllColors());
 
-        // keep track of selected country
         self.selectedCategory = ko.observable();
         self.selectedProduct = ko.observable();
         self.selectedSize = ko.observable();
@@ -133,13 +99,14 @@ $(document).ready(function () {
         self.quantity = ko.observable(1);
 
         self.price = ko.computed(function () {
-            if (self.selectedSize() && self.selectedSize().price)
-                return self.selectedSize().price * self.quantity();
+            if (self.selectedSize() && self.selectedSize().price().price) {
+                console.log(self.selectedSize().price().price, self.quantity());
+                return self.selectedSize().price().price * self.quantity();
+            }
             else
                 return 0
         }, self);
 
-        // change state selection based on country selection
         self.selectedProducts = ko.dependentObservable(function () {
             var catiId = self.selectedCategory();
 
@@ -149,18 +116,10 @@ $(document).ready(function () {
 
         }, self);
 
-        // change state selection based on country selection
         self.selectedSizes = ko.dependentObservable(function () {
             if(self.selectedProduct()){
-                console.log(self.selectedProduct());
-                console.log(self.selectedProduct().productSizes());
                 return self.selectedProduct().productSizes();
             }
-            //var prodId = self.selectedProduct();
-            //
-            //return ko.utils.arrayFilter(self.sizes(), function (item) {
-            //    return item.product().id == prodId;
-            //});
         }, self);
     };
 
@@ -183,19 +142,47 @@ $(document).ready(function () {
             return total;
         });
 
-        self.masters = ko.observableArray([new master(1, "Valentina"),
-            new master(2, "Kate")]);
+        self.masters = ko.observableArray([new master(1, "Valentina", "Ivanova"),
+            new master(2, "Kate", "Smith")]);
+
         self.selectedMaster = ko.observable();
+
+        self.customer = new customerModel();
 
         self.addOrderProduct();
 
 
         self.sendOrder = function () {
+            var orderProducts = ko.utils.arrayMap(self.orderProductList(), function(item) {
+                return {
+                    productSize: {id: item.selectedSize().id()},
+                    quantity: item.quantity()
+                };
+            });
 
+            var order = {
+                orderProducts: orderProducts,
+                totalCost: self.totalSurcharge(),
+                master:self.selectedMaster(),
+                customer:self.customer
+            };
+            console.log(ko.toJSON(order));
+
+            $.ajax({
+                type: "POST",
+                url: cr + "/task/getTasksByParams.action",
+                data: ko.toJSON(lastSearchFilters),
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (data){
+                    $('#totalTaskCount').text("Всего задач: " + data.length);
+                    tasks = data;
+                },
+                async:false
+            });
         }
     };
 
-    // Activates knockout.js
     ko.applyBindings(new OrderViewModel());
 
 });
