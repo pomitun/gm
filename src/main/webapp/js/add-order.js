@@ -163,20 +163,21 @@ $(document).ready(function () {
             var order = {
                 orderProducts: orderProducts,
                 totalCost: self.totalSurcharge(),
-                master:self.selectedMaster(),
-                customer:self.customer
+                master:{id:self.selectedMaster()}
+                //,
+                //customer:self.customer
             };
             console.log(ko.toJSON(order));
 
             $.ajax({
                 type: "POST",
-                url: cr + "/task/getTasksByParams.action",
-                data: ko.toJSON(lastSearchFilters),
+                url: contextPath + "/addOrder.action",
+                data: ko.toJSON(order),
                 contentType: "application/json; charset=utf-8",
                 dataType: "json",
                 success: function (data){
-                    $('#totalTaskCount').text("Всего задач: " + data.length);
-                    tasks = data;
+                    console.log(data);
+                   alert(data);
                 },
                 async:false
             });

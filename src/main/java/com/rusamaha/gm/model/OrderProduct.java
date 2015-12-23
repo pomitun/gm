@@ -17,6 +17,8 @@ public class OrderProduct {
     @Column(name = "ORDER_PRODUCT_ID")
     private Long id;
 
+
+
     @ManyToOne
     private ProductColor productColor;
 
