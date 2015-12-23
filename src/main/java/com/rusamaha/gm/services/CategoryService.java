@@ -1,6 +1,6 @@
 package com.rusamaha.gm.services;
 
-import com.rusamaha.gm.dao.CategoryRepository;
+import com.rusamaha.gm.dao.CategoryDao;
 import com.rusamaha.gm.model.Category;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 public class CategoryService {
 
     @Autowired
-    private CategoryRepository category;
+    private CategoryDao category;
 
     public Iterable<Category> getAllCategories(){
         return category.findAll();

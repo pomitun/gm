@@ -1,3 +1,4 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <div class="page-content">
     <div data-bind="foreach: orderProductList">
         Category:<select data-bind="options:categories, optionsText : 'name',optionsValue:'id', value:selectedCategory, optionsCaption:'Select...'"></select>
@@ -23,3 +24,12 @@
     Phone:<input data-bind="value: customer.phone"/> <br>
     Address:<input data-bind="value: customer.address"/> <br>
 </div>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<script>
+    var contextPath = "${contextPath}";
+</script>
+
+<script src="${contextPath}/lib/jquery-2.1.3.min.js"></script>
+<script src="${contextPath}/lib/knockout-3.3.0.js"></script>
+<script src="${contextPath}/js/add-order.js"></script>

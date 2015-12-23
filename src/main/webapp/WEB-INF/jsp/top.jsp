@@ -8,3 +8,4 @@
 </head>
 <body>
 <p>${demo}</p>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>

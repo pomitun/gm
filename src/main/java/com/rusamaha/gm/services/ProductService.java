@@ -1,6 +1,6 @@
 package com.rusamaha.gm.services;
 
-import com.rusamaha.gm.dao.ProductRepository;
+import com.rusamaha.gm.dao.ProductDao;
 import com.rusamaha.gm.model.ProductBase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,7 +15,7 @@ import javax.transaction.Transactional;
 public class ProductService {
 
     @Autowired
-    private ProductRepository productDao;
+    private ProductDao productDao;
 
     public ProductBase saveOrUpdate(ProductBase product){
 
