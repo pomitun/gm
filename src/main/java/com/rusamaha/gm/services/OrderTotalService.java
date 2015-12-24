@@ -42,5 +42,8 @@ public class OrderTotalService {
         orderTotal.deleteOrderById(id);
     }
 
+    public void saveOrder(Order order){
+        orderTotal.saveOrder(order);
+    }
 
 }

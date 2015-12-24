@@ -3,6 +3,7 @@ package com.rusamaha.gm.dao.impl;
 import com.rusamaha.gm.dao.OrderTotalDaoCustom;
 import com.rusamaha.gm.model.Order;
 import org.hibernate.Query;
+import com.rusamaha.gm.model.OrderProduct;
 import org.hibernate.Session;
 import org.hibernate.internal.SessionImpl;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,25 +25,29 @@ public class OrderTotalDaoImpl implements OrderTotalDaoCustom {
     public void saveOrder(Order order){
         Session session = em.unwrap(Session.class);
 
-        Long orderTotalId = null;
-
-        CallableStatement callableStatement = null;
-        Connection dbConnection = null;
-
-        String order_total_ins_sql = "{call ORDER_TOTAL_INS(?,?,?,?)}";
-
-        dbConnection = em.unwrap(SessionImpl.class).connection();
-
         try {
-            callableStatement = dbConnection.prepareCall(order_total_ins_sql);
+            Connection dbConnection = em.unwrap(SessionImpl.class).connection();
 
-            callableStatement.setTimestamp(1, (Timestamp) new Date());
+            String order_total_ins_sql = "{call ORDER_TOTAL_INS(?,?,?,?)}";
+            CallableStatement callableStatement = dbConnection.prepareCall(order_total_ins_sql);
+
+            callableStatement.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
             callableStatement.setLong(2, order.getMaster().getId());
             callableStatement.setInt(3, order.getTotalCost());
-            callableStatement.registerOutParameter(5, Types.BIGINT);
+            callableStatement.registerOutParameter(4, Types.BIGINT);
 
             callableStatement.executeUpdate();
-            orderTotalId = callableStatement.getLong(5);
+            Long orderTotalId = callableStatement.getLong(4);
+
+            System.out.println("orderTotalId " + orderTotalId);
+            for(OrderProduct orderProduct : order.getOrderProducts()){
+                Query order_product_ins = session.createSQLQuery("INSERT INTO ORDER_PRODUCT (PRODUCT_SIZE_PRODUCT_SIZE_ID, QUANTITY, ORDER_ORDER_TOTAL_ID) VALUES (:param1, :param2, :param3)")
+                        .setParameter("param1", orderProduct.getProductSize().getId())
+                        .setParameter("param2", orderProduct.getQuantity())
+                        .setParameter("param3", orderTotalId);
+                order_product_ins.executeUpdate();
+            }
+
         } catch (SQLException e) {
 
             System.out.println(e.getMessage());
@@ -79,5 +84,3 @@ public class OrderTotalDaoImpl implements OrderTotalDaoCustom {
 
     }
 }
-
-
