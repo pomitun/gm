@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 /**
 * Created by Mary on 23.02.2015.
@@ -55,5 +56,9 @@ public class ProductService {
 
     public Iterable<ProductBase> getAllProducts(){
         return productDao.findAll();
+    }
+
+    public List<ProductBase> findByName(String name){
+        return productDao.findByName(name);
     }
 }

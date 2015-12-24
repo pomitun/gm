@@ -7,6 +7,7 @@ import com.rusamaha.gm.model.ProductColor;
 import com.rusamaha.gm.model.ProductSize;
 import org.hibernate.Query;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 import org.hibernate.internal.SessionImpl;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -85,6 +86,12 @@ public class ProductDaoImpl implements ProductDaoCustom {
 
         }
 
+    }
+
+    public List<ProductBase> findByName(String name){
+        Session session = em.unwrap(Session.class);
+        System.out.println(name);
+        return session.createCriteria(ProductBase.class).add(Restrictions.eq("name", "%" + name + "%")).list();
     }
 
 

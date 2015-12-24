@@ -1,5 +1,6 @@
 package com.rusamaha.gm.dao;
 
+import com.rusamaha.gm.model.ProductBase;
 import com.rusamaha.gm.model.ProductColor;
 import com.rusamaha.gm.model.ProductSize;
 
@@ -12,5 +13,5 @@ public interface ProductDaoCustom {
     public Long mySave(String name, String knitTechnology, Long categoryID, Boolean availability,
                       List<ProductSize> productSizes, List<ProductColor> productColors );
 
-
+    List<ProductBase> findByName(String name);
 }

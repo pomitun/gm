@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.bind.JAXBException;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -95,39 +96,23 @@ public class ProductController{
         return productService.getAllProducts();
     }
 
-//    @ResponseBody
-//    public Smartphone createSmartphone(@RequestBody Smartphone smartphone) {
-//        return smartphoneService.create(smartphone);
-//    }
 
-//
-//    @RequestMapping("/save.action")
-//    public ResponseEntity<ProductBase> saveProduct(@RequestBody ProductBase product) throws IOException, JAXBException {
-//
-//        //ProductBase product = jsonManager.unMarshall(request.getInputStream(), ProductBase.class);
-//        //return new ModelAndView(jsonView, ROOT_OBJECT_MAP_KEY, productService.saveOrUpdate(product));
-//        System.out.print("product:"+product);
-//        return new ResponseEntity<ProductBase>(product, HttpStatus.OK);
-//    }
+    @RequestMapping("/findProduct.htm")
+    public ModelAndView findProductPage() {
+        ModelAndView model = new ModelAndView("find");
+        List<String> productsName = new ArrayList<>();
+        for(ProductBase productBase : productService.getAllProducts()){
+            productsName.add(productBase.getName());
+        }
+        model.addObject("productsName", productsName);
 
-//    @RequestMapping(value = "/get/allCustomers.action",
-//            headers = "content-type=application/json")
-//    public ModelAndView list(HttpServletRequest request,
-//                             HttpServletResponse response) {
-//
-//        Loader loader = null;
-//        try {
-//            loader = jsonManager.unMarshall(request.getInputStream(),Loader.class);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        logger.info(loader.toString());
-//
-//        List<Customer> list = customerService.getCustomers();
-//        Map<BaseController,List> map = new HashMap<BaseController,List>();
-//        map.put(BaseController.ROOT_OBJECT_MAP_KEY, list);
-//        jView.renderMergedOutputModel(map,request,response);
-//        return new ModelAndView(jView,"customers",map);
-//    }
+        return model;
+    }
+
+    @RequestMapping(value = "/findProduct.action")
+    public  @ResponseBody List<ProductBase> findProduct(@RequestBody String name)  throws IOException {
+        return productService.findByName(name);
+
+    }
+
 }

@@ -14,7 +14,4 @@ import java.util.List;
  */
 @Repository
 public interface ProductDao extends CrudRepository<ProductBase, Long>, ProductDaoCustom {
-    Long mySave(String name, String knitTechnology, Long categoryID, Boolean availability, List<ProductSize> productSizes, List<ProductColor> colors);
-
-
 }
