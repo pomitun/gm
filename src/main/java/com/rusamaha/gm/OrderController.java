@@ -46,4 +46,14 @@ public class OrderController {
         return "success";
     }
 
+    @RequestMapping("/deleteOrder.action")
+    public @ResponseBody
+    String deleteOrder(@RequestBody Long id) {
+        orderTotalService.deleteOrderByID(id);
+        System.out.print(id);
+        return "success";
+    }
+
+
+
 }

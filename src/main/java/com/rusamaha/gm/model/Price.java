@@ -16,7 +16,7 @@ import java.util.Date;
 @Table(name = "PRICES")
 public class Price {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "PRICES_ID")
     private Long id;
 

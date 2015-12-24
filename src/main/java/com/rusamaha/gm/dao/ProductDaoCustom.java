@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProductDaoCustom {
     public Long mySave(String name, String knitTechnology, Long categoryID, Boolean availability,
                       List<ProductSize> productSizes, List<ProductColor> productColors );
+
+
 }

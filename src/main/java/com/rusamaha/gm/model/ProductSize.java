@@ -17,7 +17,7 @@ import java.util.List;
 @Table(name="PRODUCT_SIZE")
 public class ProductSize {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
     @Column(name = "PRODUCT_SIZE_ID")
     private Long id;

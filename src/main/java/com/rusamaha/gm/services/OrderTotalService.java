@@ -38,5 +38,9 @@ public class OrderTotalService {
         return orders;
     }
 
+    public void deleteOrderByID(Long id){
+        orderTotal.deleteOrderById(id);
+    }
+
 
 }

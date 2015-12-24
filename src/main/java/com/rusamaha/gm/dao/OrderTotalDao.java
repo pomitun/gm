@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by rusamaha on 23/12/15.
  */
 @Repository
-public interface OrderTotalDao extends CrudRepository<Order, Long> {
+public interface OrderTotalDao extends CrudRepository<Order, Long>, OrderTotalDaoCustom {
 
 }

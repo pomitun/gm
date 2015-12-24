@@ -13,7 +13,7 @@ import java.util.List;
 @Table(name="PRODUCT_COLOR")
 public class ProductColor {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @JsonProperty("id")
     @Column(name = "PRODUCT_COLOR_ID")
     private Long id;

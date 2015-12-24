@@ -13,11 +13,9 @@ import javax.persistence.*;
 @Table(name="ORDER_PRODUCT")
 public class OrderProduct {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ORDER_PRODUCT_ID")
     private Long id;
-
-
 
     @ManyToOne
     private ProductColor productColor;

@@ -2,6 +2,10 @@ package com.rusamaha.gm.model;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -16,7 +20,7 @@ import java.util.List;
 @Table(name="ORDER_TOTAL")
 public class Order {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "ORDER_TOTAL_ID")
     private Long id;
 
@@ -34,7 +38,9 @@ public class Order {
     @ManyToOne
     private User master;
 
-    @OneToMany(mappedBy = "order")
+    @OneToMany(mappedBy = "order",  cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @Fetch(value = FetchMode.SUBSELECT)
     @JsonManagedReference
     private List<OrderProduct> orderProducts;
 
@@ -85,4 +91,6 @@ public class Order {
     public void setOrderProducts(List<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
     }
+
 }
+

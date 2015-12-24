@@ -87,6 +87,8 @@ public class ProductDaoImpl implements ProductDaoCustom {
 
     }
 
+
+
 //        Query query = session.createSQLQuery("CALL PRODUCT_INS(:name, :knitTechnology, :categoryID, :availability, :id)")
 //                .setParameter("name", name)
 //                .setParameter("knitTechnology", knitTechnology)
